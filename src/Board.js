@@ -19,6 +19,7 @@ class Board extends Component {
         }
         this.eachNote = this.eachNote.bind(this);
         this.edit = this.edit.bind(this)
+        this.delete = this.delete.bind(this)
     }
 
     edit(newTitle, index) {
@@ -31,9 +32,19 @@ class Board extends Component {
         }))
     }
 
+    delete(index) {
+        console.log('Delete ', index);
+        this.setState(prevState => ({
+            notes: prevState.notes.filter(note => note.id !== index)
+        }))
+    }
+
     eachNote(note, index) {
         return(
-            <Note key={note.id} index={note.id} onChange={this.edit}>
+            <Note key={note.id} index={note.id}
+                  onChange={this.edit}
+                  onDelete={this.delete}
+            >
                 {note.title}
             </Note>
         )
