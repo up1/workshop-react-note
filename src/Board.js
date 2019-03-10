@@ -17,12 +17,25 @@ class Board extends Component {
                 }
             ]
         }
+        this.eachNote = this.eachNote.bind(this);
+        this.edit = this.edit.bind(this)
+    }
 
+    edit(newTitle, index) {
+        console.log('Edit ', newTitle, index);
+        this.setState(prevState => ({
+            notes: prevState.notes.map(
+                note => (note.id === index) ?
+                            {...note, title: newTitle} : note
+            )
+        }))
     }
 
     eachNote(note, index) {
         return(
-            <Note key={index} index={index}>{note.title}</Note>
+            <Note key={note.id} index={note.id} onChange={this.edit}>
+                {note.title}
+            </Note>
         )
     }
 
