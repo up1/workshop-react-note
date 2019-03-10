@@ -37,7 +37,7 @@ class Note extends Component {
     renderForShow() {
         return(
             <div className="note">
-                <p>Hello React</p>
+                <p>{this.props.children}</p>
                 <span>
                     <button id="edit" onClick={this.edit}>
                         <FaPencilAlt/>
