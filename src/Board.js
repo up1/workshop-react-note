@@ -7,21 +7,20 @@ class Board extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            notes: [
-                {
-                    id: 1,
-                    title: "Note 1"
-                },
-                {
-                    id: 2,
-                    title: "Note 2"
-                }
-            ]
+            notes: []
         }
         this.eachNote = this.eachNote.bind(this);
         this.edit = this.edit.bind(this)
         this.delete = this.delete.bind(this)
         this.addNew = this.addNew.bind(this)
+    }
+
+    componentWillUnmount() {
+        console.log("Component will unmount")
+    }
+
+    componentDidUpdate(prevProps) {
+        console.log("Component did update")
     }
 
     edit(newTitle, index) {
@@ -52,12 +51,20 @@ class Board extends Component {
         )
     }
 
+    componentWillMount() {
+        console.log("Component will mount");
+        fetch(`https://baconipsum.com/api/?type=meat-and-filler&sentences=3`)
+            .then(response => response.json())
+            .then(json => json[0].split('. ')
+                .forEach(input => this.addNew(input.substring(0, 10))))
+    }
+
     addNew(newTitle) {
         this.setState(prevState => ({
             notes: [
                 ...prevState.notes,
                 {
-                    id: 3,
+                    id: this.nextId(),
                     title: newTitle
                 }
             ]
@@ -75,6 +82,10 @@ class Board extends Component {
         )
     }
 
+    nextId() {
+        this.uniqueId = this.uniqueId || 0;
+        return this.uniqueId++;
+    }
 }
 
 export default Board
